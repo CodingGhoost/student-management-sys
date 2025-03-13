@@ -1,6 +1,7 @@
 package com.example.mapper;
 
 import com.example.entity.Course;
+import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
@@ -22,4 +23,7 @@ public interface CourseMapper {
     @Update("update courses set name = #{name}, code = #{code}, lessons = #{lessons}," +
             "description = #{description}, instructor = #{instructor} where id = #{id}")
     void update(Course course);
+
+    @Delete("delete from courses where id = #{id}")
+    void delete(Integer id);
 }

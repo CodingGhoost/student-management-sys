@@ -34,4 +34,10 @@ public class CourseController {
         return Result.success(course);
     }
 
+    @DeleteMapping("/delete/{id}")
+    public Result delete(@PathVariable Integer id) {
+        courseService.delete(id);
+        return Result.success(id);
+    }
+
 }

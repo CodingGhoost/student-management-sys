@@ -5,9 +5,11 @@ import com.github.pagehelper.PageInfo;
 
 public interface CourseService {
 
-    public PageInfo<Course> selectPage(Integer pageNum, Integer pageSize, Course course);
+    PageInfo<Course> selectPage(Integer pageNum, Integer pageSize, Course course);
 
-    public void add(Course course);
+    void add(Course course);
 
-    public void update(Course course);
+    void update(Course course);
+
+    void delete(Integer id);
 }

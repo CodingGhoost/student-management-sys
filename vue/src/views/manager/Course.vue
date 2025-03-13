@@ -1,7 +1,7 @@
 <script setup>
 import { ref } from 'vue';
 import request from '@/utils/request';
-import { ElMessage } from "element-plus";
+import {ElMessage, ElMessageBox} from "element-plus";
 
 const formData = ref({
   name: '',
@@ -60,8 +60,23 @@ const handleEdit = (row) => {
   dialogFormVisible.value = true;
 }
 
-const save = () => {
+const handleDelete = (id) => {
+  ElMessageBox.confirm('您确定要删除吗？', '删除确认', {type: 'warning'}).then(res =>{
+    request.delete('/course/delete/' + id).then(res => {
+      if (res.code === '200') {
+        load();
+        ElMessage.success("操作成功");
+      } else {
+        ElMessage.error(res.msg);
+      }
+    })
+  }).catch(res => {
+    // Delete canceled
+  })
 
+}
+
+const save = () => {
   request.request({
     url: addForm.value.id ? '/course/update' : '/course/add',
     method: addForm.value.id ? 'PUT' : "POST",
@@ -103,7 +118,7 @@ load();
         <el-table-column>
           <template #default="scope">
             <el-button type="primary" @click="handleEdit(scope.row)">编辑</el-button>
-            <el-button type="danger">删除</el-button>
+            <el-button type="danger" @click="handleDelete(scope.row.id)">删除</el-button>
           </template>
         </el-table-column>
       </el-table>
