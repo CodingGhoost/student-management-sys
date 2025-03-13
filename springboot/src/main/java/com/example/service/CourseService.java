@@ -5,5 +5,9 @@ import com.github.pagehelper.PageInfo;
 
 public interface CourseService {
 
-    public PageInfo<Course> selectPage(Integer pageNum, Integer pageSize, String name);
+    public PageInfo<Course> selectPage(Integer pageNum, Integer pageSize, Course course);
+
+    public void add(Course course);
+
+    public void update(Course course);
 }

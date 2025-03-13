@@ -5,10 +5,7 @@ import com.example.entity.Course;
 import com.example.service.CourseService;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/course")
@@ -20,9 +17,21 @@ public class CourseController {
     @GetMapping("/selectPage")
     public Result selectPage(@RequestParam(defaultValue = "1") Integer pageNum,
                              @RequestParam(defaultValue = "5") Integer pageSize,
-                             @RequestParam String name) {
-        PageInfo<Course> coursePage = courseService.selectPage(pageNum, pageSize, name);
+                             Course course) {
+        PageInfo<Course> coursePage = courseService.selectPage(pageNum, pageSize, course);
         return Result.success(coursePage);
+    }
+
+    @PostMapping("/add")
+    public Result add(@RequestBody Course course) {
+        courseService.add(course);
+        return Result.success(course);
+    }
+
+    @PutMapping("/update")
+    public Result update(@RequestBody Course course) {
+        courseService.update(course);
+        return Result.success(course);
     }
 
 }

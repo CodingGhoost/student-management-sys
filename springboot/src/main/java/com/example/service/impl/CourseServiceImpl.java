@@ -17,9 +17,19 @@ public class CourseServiceImpl implements CourseService {
     private CourseMapper courseMapper;
 
     @Override
-    public PageInfo<Course> selectPage(Integer pageNum, Integer pageSize, String name) {
+    public PageInfo<Course> selectPage(Integer pageNum, Integer pageSize, Course course) {
         PageHelper.startPage(pageNum, pageSize);
-        List<Course> dataList = courseMapper.selectAll(name);
+        List<Course> dataList = courseMapper.selectAll(course);
         return PageInfo.of(dataList);
+    }
+
+    @Override
+    public void add(Course course) {
+        courseMapper.insert(course);
+    }
+
+    @Override
+    public void update(Course course) {
+        courseMapper.update(course);
     }
 }
