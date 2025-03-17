@@ -6,6 +6,7 @@ import com.example.entity.Account;
 import com.example.service.AdminService;
 import com.example.service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.ObjectUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -45,4 +46,16 @@ public class WebController {
         return Result.success(dbAccount);
     }
 
+    /**
+     * 注册接口
+     */
+    @PostMapping("/register")
+    public Result register(@RequestBody Account account) {
+        if (ObjectUtils.isEmpty(account.getUsername()) || ObjectUtils.isEmpty(account.getPassword())) {
+            // 账号或密码为空的情况
+            return Result.error("账号或密码为空！");
+        }
+        studentService.register(account);
+        return Result.success(account);
+    }
 }

@@ -4,7 +4,10 @@ import request from '@/utils/request';
 import router from '@/router';
 import { ElMessage } from "element-plus";
 
-const formData = ref({
+
+
+  const formData = ref({
+    role:'ADMIN',
     username:'',
     password:'',
   })
@@ -23,7 +26,7 @@ const formData = ref({
   const login = () => {
     request.post('/login', formData.value).then(res => {
       if (res.code === '200') {
-        localStorage.setItem('admin', JSON.stringify(res.data));
+        localStorage.setItem('user', JSON.stringify(res.data));
         ElMessage.success('登录成功');
         router.push('/home');
       } else {
@@ -39,6 +42,12 @@ const formData = ref({
     <div class="login-box" style="width: 350px">
       <div style="font-weight: bold; font-size: 24px; text-align: center; margin-bottom: 30px">登 录</div>
       <el-form :model="formData" :rules="rules">
+        <el-form-item prop="role">
+          <el-select  style="width: 100%;" v-model="formData.role">
+            <el-option value="ADMIN" label="管理员"></el-option>
+            <el-option value="STUDENT" label="学生"></el-option>
+          </el-select>
+        </el-form-item>
         <el-form-item prop="username">
           <el-input prefix-icon="User" v-model="formData.username" placeholder="请输入账号"/>
         </el-form-item>
@@ -49,7 +58,7 @@ const formData = ref({
           <el-button type="primary" style="width: 100%" @click="login">登录</el-button>
         </el-form-item>
       </el-form>
-      <div style="font-size: 14px; text-align: right">
+      <div style="font-size: 14px; text-align: left">
         <a href="/register">注册</a>
       </div>
     </div>

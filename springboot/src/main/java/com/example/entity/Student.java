@@ -18,7 +18,7 @@ public class Student extends Account {
     private String sex;
 
     // 出生日期
-    private String birth_date;
+    private String birthDate;
 
     // 头像（url链接）
     private String avatar;
