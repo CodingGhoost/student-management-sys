@@ -1,9 +1,10 @@
 package com.example.controller;
 
 import com.example.common.Result;
-import com.example.entity.Admin;
-import com.example.exception.CustomException;
+import com.example.common.RoleEnum;
+import com.example.entity.Account;
 import com.example.service.AdminService;
+import com.example.service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -15,6 +16,9 @@ public class WebController {
 
     @Autowired
     private AdminService adminService;
+
+    @Autowired
+    private StudentService studentService;
 
     /**
      * 默认请求接口
@@ -28,9 +32,17 @@ public class WebController {
      * 登录接口
      */
     @PostMapping("/login")
-    public Result login(@RequestBody Admin admin) {
-        Admin dbAdmin = adminService.findByUsername(admin);
-        return Result.success(dbAdmin);
+    public Result login(@RequestBody Account account) {
+        Account dbAccount;
+        if (RoleEnum.ADMIN.name().equals(account.getRole())) {
+            dbAccount = adminService.findByUsername(account);
+        } else if (RoleEnum.STUDENT.name().equals(account.getRole())) {
+            dbAccount = studentService.findByUsername(account);
+        } else {
+            return Result.error("角色错误");
+        }
+
+        return Result.success(dbAccount);
     }
 
 }

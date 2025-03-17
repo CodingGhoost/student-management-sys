@@ -1,22 +1,21 @@
 package com.example.service.impl;
 
 import com.example.entity.Account;
-import com.example.entity.Admin;
 import com.example.exception.CustomException;
-import com.example.mapper.AdminMapper;
-import com.example.service.AdminService;
+import com.example.mapper.StudentMapper;
+import com.example.service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class AdminServiceImpl implements AdminService {
+public class StudentServiceImpl implements StudentService {
 
     @Autowired
-    private AdminMapper adminMapper;
+    private StudentMapper studentMapper;
 
     @Override
     public Account findByUsername(Account account) {
-        Account a = adminMapper.findByUsername(account.getUsername());
+        Account a = studentMapper.findByUsername(account.getUsername());
         if (a == null) {
             // 用户不存在
             throw new CustomException("账号或密码错误");

@@ -1,9 +1,8 @@
 package com.example.service;
 
 import com.example.entity.Account;
-import com.example.entity.Admin;
 
-public interface AdminService {
+public interface StudentService {
 
     Account findByUsername(Account account);
 }
