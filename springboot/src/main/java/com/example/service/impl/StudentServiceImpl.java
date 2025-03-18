@@ -1,13 +1,18 @@
 package com.example.service.impl;
 
+import cn.hutool.core.util.ObjectUtil;
 import com.example.common.RoleEnum;
 import com.example.entity.Account;
 import com.example.entity.Student;
 import com.example.exception.CustomException;
 import com.example.mapper.StudentMapper;
 import com.example.service.StudentService;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class StudentServiceImpl implements StudentService {
@@ -31,19 +36,41 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
-    public void register(Account account) {
-        String username = account.getUsername();
-        if (studentMapper.findByUsername(username) != null) {
+    public void add(Student student) {
+        if (studentMapper.findByUsername(student.getUsername()) != null) {
             // 用户已经存在
             throw new CustomException("账号已存在");
         }
-
-        Student student = new Student();
-        student.setUsername(username);
-        student.setPassword(account.getPassword());
-        student.setName(username); // 注册时使用学号作为学生默认姓名
+        if (ObjectUtil.isEmpty(student.getName())) {
+            student.setName(student.getUsername());
+        }
         student.setRole(RoleEnum.STUDENT.name());
-
         studentMapper.insert(student);
     }
+
+    @Override
+    public void register(Account account) {
+        Student student = new Student();
+        student.setUsername(account.getUsername());
+        student.setPassword(account.getPassword());
+        this.add(student);
+    }
+
+    @Override
+    public void deleteById(Integer id) {
+        studentMapper.deleteById(id);
+    }
+
+    @Override
+    public void update(Student student) {
+        studentMapper.update(student);
+    }
+
+    @Override
+    public PageInfo<Student> selectPage(Integer pageNum, Integer pageSize, Student student) {
+        PageHelper.startPage(pageNum, pageSize);
+        List<Student> studentList = studentMapper.selectAll(student);
+        return PageInfo.of(studentList);
+    }
+
 }
