@@ -41,6 +41,17 @@ const reset = () => {
   load();
 }
 
+const rules = {
+  username: [
+    { required: true, message: '请输入用户名', trigger: 'blur' },
+    { min: 5, max: 16, message: '长度必须为5到16个字符', trigger: 'blur' }
+  ],
+  password: [
+    { required: true, message: '请输入密码', trigger: 'blur' },
+    { min: 6, max: 16, message: '长度必须为6到16个字符', trigger: 'blur' }
+  ],
+}
+
 const handleAdd = () => {
   addForm.value = {};
   dialogFormVisible.value = true;
@@ -68,6 +79,7 @@ const handleDelete = (id) => {
 }
 
 const save = () => {
+  console.log(addForm.value);
   request.request({
     url: addForm.value.id ? '/student/update' : '/student/add',
     method: addForm.value.id ? 'PUT' : "POST",
@@ -122,10 +134,13 @@ load();
                      background layout="prev, pager, next" :total="formData.total"/>
     </div>
 
-    <el-dialog v-model="dialogFormVisible" title="学生信息录入">
-      <el-form v-model="addForm" label-position="right" label-width="100px" style="padding-right: 30px">
-        <el-form-item label="学生号">
+    <el-dialog width="35%" v-model="dialogFormVisible" title="学生信息录入">
+      <el-form :rules="rules" v-model="addForm" label-position="right" label-width="100px" style="padding-right: 30px">
+        <el-form-item label="学生账号" prop="username">
           <el-input placeholder="请输入学生号" v-model="addForm.username" autocomplete="off" />
+        </el-form-item>
+        <el-form-item label="学生密码" prop="password">
+          <el-input show-password placeholder="请输入密码" v-model="addForm.password" autocomplete="off" />
         </el-form-item>
         <el-form-item label="学生姓名">
           <el-input placeholder="请输入学生姓名" v-model="addForm.name" autocomplete="off" />
@@ -137,13 +152,14 @@ load();
           <el-input placeholder="请输入邮箱" v-model="addForm.email" autocomplete="off" />
         </el-form-item>
         <el-form-item label="性别">
-          <el-select  style="width: 100%;" v-model="formData.sex">
-            <el-option value="male" label="男"></el-option>
-            <el-option value="female" label="女"></el-option>
-          </el-select>
+          <el-radio-group v-model="addForm.sex">
+            <el-radio label="male">男</el-radio>
+            <el-radio label="female">女</el-radio>
+          </el-radio-group>
         </el-form-item>
-        <el-form-item>
-<!--            date picker -->
+        <el-form-item label="出生日期">
+          <el-date-picker style="width: 100%;" format="YYYY-MM-DD" value-format="YYYY-MM-DD" v-model="addForm.birthDate">
+          </el-date-picker>
         </el-form-item>
         <el-form-item>
 <!--          avatar upload -->

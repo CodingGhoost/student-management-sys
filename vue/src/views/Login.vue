@@ -7,7 +7,7 @@ import { ElMessage } from "element-plus";
 
 
   const formData = ref({
-    role:'ADMIN',
+    role:'1',
     username:'',
     password:'',
   })
@@ -42,11 +42,11 @@ import { ElMessage } from "element-plus";
     <div class="login-box" style="width: 350px">
       <div style="font-weight: bold; font-size: 24px; text-align: center; margin-bottom: 30px">登 录</div>
       <el-form :model="formData" :rules="rules">
-        <el-form-item prop="role">
-          <el-select  style="width: 100%;" v-model="formData.role">
-            <el-option value="ADMIN" label="管理员"></el-option>
-            <el-option value="STUDENT" label="学生"></el-option>
-          </el-select>
+        <el-form-item>
+          <el-radio-group v-model="formData.role">
+            <el-radio label="ADMIN" >管理员</el-radio>
+            <el-radio label="STUDENT">学生</el-radio>
+          </el-radio-group>
         </el-form-item>
         <el-form-item prop="username">
           <el-input prefix-icon="User" v-model="formData.username" placeholder="请输入账号"/>
