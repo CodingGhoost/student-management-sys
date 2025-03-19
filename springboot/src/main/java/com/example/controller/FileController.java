@@ -2,6 +2,7 @@ package com.example.controller;
 
 import cn.hutool.core.io.FileUtil;
 import com.example.common.Result;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -9,7 +10,6 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.ServletOutputStream;
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.IOException;
@@ -18,6 +18,12 @@ import java.net.URLEncoder;
 @RestController
 @RequestMapping("/files")
 public class FileController {
+
+    @Value("${ip}")
+    private String ip;
+
+    @Value("${server.port}")
+    private String port;
 
     private static final String ROOT_PATH = System.getProperty("user.dir") + "/files";
 
@@ -33,7 +39,7 @@ public class FileController {
 
         file.transferTo(newFile);
 
-        String url = "http://localhost:9090/files/download?=fileName" + flaggedName;
+        String url = "http://"+ ip +":"+ port +"/files/download?=fileName" + flaggedName;
         return Result.success(url);
     }
 
