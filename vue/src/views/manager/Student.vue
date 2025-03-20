@@ -75,8 +75,12 @@ const handleDelete = (id) => {
   }).catch(res => {
     // Delete canceled
   })
-
 }
+
+const handleImgUpload = (res) => {
+  addForm.value.avatar = res.data;
+}
+
 
 const save = () => {
   console.log(addForm.value);
@@ -118,7 +122,11 @@ load();
         <el-table-column prop="email" label="邮箱"/>
         <el-table-column prop="sex" label="性别"/>
         <el-table-column prop="birthDate" label="生日"/>
-        <el-table-column prop="avatar" label="头像"/>
+        <el-table-column prop="avatar" label="头像">
+          <template #default="scope">
+            <el-image v-if="scope.row.avatar" :src="scope.row.avatar" :preview-src-list="[scope.row.avatar]" style="width:40px; height: 40px; border-radius: 5px;"></el-image>
+          </template>
+        </el-table-column>
         <el-table-column width="180px">
           <template #default="scope">
             <el-button type="primary" @click="handleEdit(scope.row)">编辑</el-button>
@@ -134,7 +142,7 @@ load();
                      background layout="prev, pager, next" :total="formData.total"/>
     </div>
 
-    <el-dialog width="35%" v-model="dialogFormVisible" title="学生信息录入">
+    <el-dialog width="35%" v-model="dialogFormVisible" title="学生信息录入" destroy-on-close>
       <el-form :rules="rules" v-model="addForm" label-position="right" label-width="100px" style="padding-right: 30px">
         <el-form-item label="学生账号" prop="username">
           <el-input placeholder="请输入学生号" v-model="addForm.username" autocomplete="off" />
@@ -162,7 +170,9 @@ load();
           </el-date-picker>
         </el-form-item>
         <el-form-item>
-<!--          avatar upload -->
+          <el-upload action="http://localhost:9090/files/upload" :on-success="handleImgUpload" list-type="picture">
+            <el-button type="primary" >上传头像</el-button>
+          </el-upload>
         </el-form-item>
       </el-form>
 

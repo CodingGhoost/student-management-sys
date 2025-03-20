@@ -39,7 +39,7 @@ public class FileController {
 
         file.transferTo(newFile);
 
-        String url = "http://"+ ip +":"+ port +"/files/download?=fileName" + flaggedName;
+        String url = "http://"+ ip +":"+ port +"/files/download?fileName=" + flaggedName;
         return Result.success(url);
     }
 
