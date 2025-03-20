@@ -45,7 +45,7 @@
               <span>学生信息</span>
             </el-menu-item>
           </el-sub-menu>
-          <el-menu-item index="/person">
+          <el-menu-item index="/person" v-if="user.role === 'STUDENT'">
             <el-icon><User /></el-icon>
             <span>个人资料</span>
           </el-menu-item>
