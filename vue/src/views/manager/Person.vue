@@ -37,8 +37,9 @@ const update = () => {
     <el-card style="width: 50%; padding: 40px;">
       <el-form v-model="addForm" label-position="right" label-width="100px" style="padding-right: 30px">
         <el-form-item label="学生头像">
-          <el-upload class="avatar-uploader" action="http://localhost:9090/files/upload" :on-success="handleImgUpload" list-type="picture">
+          <el-upload class="avatar-uploader" action="http://localhost:9090/files/upload" :on-success="handleImgUpload" :show-file-list="false">
             <img v-if="addForm.avatar" :src="addForm.avatar" class="avatar">
+            <el-icon v-else class="avatar-uploader-icon"><Plus /></el-icon>
           </el-upload>
         </el-form-item>
         <el-form-item label="学生账号" prop="username">
@@ -75,14 +76,14 @@ const update = () => {
 </template>
 
 <style scoped>
-.avatar-uploader .el-upload {
+.avatar-uploader {
   border: 1px dashed #d9d9d9;
   border-radius: 6px;
   cursor: pointer;
   position: relative;
   overflow: hidden;
 }
-.avatar-uploader .el-upload:hover {
+.avatar-uploader:hover {
   border-color: #409EFF;
 }
 .avatar-uploader-icon {
