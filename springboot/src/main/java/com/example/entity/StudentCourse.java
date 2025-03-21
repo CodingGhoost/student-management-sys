@@ -14,4 +14,6 @@ public class StudentCourse {
     private Integer studentId;
 
     private Integer courseId;
+
+    private String studentName;
 }
